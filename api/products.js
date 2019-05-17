@@ -76,6 +76,77 @@ router.get("/search", (req, res, next) => {
     });
 });
 
+router.get("/search", (req, res, next) => {
+    const page = req.query.page, limit=req.query.limit, description_length=req.query.description_length;
+
+    db.query(Product.getAllProductSearchSQL(string,all_words,page,limit,description_length), (err, data) => {
+        if (err) {
+            //If there is error, we send the error in the error section with 500 status
+            res.status(500).json({
+                status: 500,
+                code: "USR_02",
+                message: err,
+                field: "",
+            });
+        } else {
+            var rows = data;
+            db.query("SELECT count(*) count from product", function(err, result) {
+                if (err) {
+                    //If there is error, we send the error in the error section with 500 status
+                    res.status(500).json({
+                        status: 500,
+                        code: "USR_02",
+                        message: err,
+                        field: "",
+                    });
+                } else {
+                    //If there is no error, all is good and response is 200OK.
+                    res.status(200).json({
+                        count: result[0].count,
+                        rows: rows
+                    });
+                }
+            })
+            
+        }
+    });
+});
+
+router.get("/InCategory/:category_id", (req, res, next) => {
+    const page = req.query.page, limit=req.query.limit, description_length=req.query.description_length, category_id = req.params.category_id;
+    
+    db.query(Product.getProductInCategorySQL(category_id,page,limit,description_length), (err, data) => {
+        if (err) {
+            //If there is error, we send the error in the error section with 500 status
+            res.status(500).json({
+                status: 500,
+                code: "USR_02",
+                message: err
+            });
+        } else {
+            var rows = data;
+            db.query("select count(*) count from product p join product_category c on p.product_id=c.product_id", function(err, result) {
+                if (err) {
+                    //If there is error, we send the error in the error section with 500 status
+                    res.status(500).json({
+                        status: 500,
+                        code: "USR_02",
+                        message: err,
+                        field: "",
+                    });
+                } else {
+                    //If there is no error, all is good and response is 200OK.
+                    res.status(200).json({
+                        count: result[0].count,
+                        rows: rows
+                    });
+                }
+            })
+            
+        }
+    });
+});
+
 router.post("/add", (req, res, next) => {
 
     //read product information from request

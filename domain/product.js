@@ -1,10 +1,4 @@
 class Product {
-    
-    constructor(name,price) {
-        this.prd_id=0;
-        this.prd_name=name;
-        this.prd_price=price;
-    }
 
     getAddProductSQL() {
         let sql = `INSERT INTO PRODUCTS(prd_name, prd_price) \
@@ -12,8 +6,8 @@ class Product {
         return sql;           
     }
 
-    static getProductByIdSQL(prd_id) {
-        let sql = `SELECT * FROM PRODUCTS WHERE PRD_ID = ${prd_id}`;
+    static getProductByIdSQL(product_id) {
+        let sql = `SELECT * FROM PRODUCTS WHERE product_id = ${product_id}`;
         return sql;           
     }
 
@@ -32,8 +26,8 @@ class Product {
         return sql;           
     } 
 
-    static getProductbyIDSQL(product_id) {
-        let sql = `SELECT * FROM PRODUCT where product_id=${product_id}`;
+    static getProductInCategorySQL(category_id,page,limit,description_length) {
+        let sql = `select SQL_CALC_FOUND_ROWS * from Product p join product_category c on p.product_id=c.product_id where category_id = ${category_id}  and  char_length(description)<=${description_length} Limit ${limit}, ${page}`;
         return sql;           
     } 
 }
