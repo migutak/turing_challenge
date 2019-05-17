@@ -31,6 +31,11 @@ class Product {
         let sql = `SELECT SQL_CALC_FOUND_ROWS * FROM PRODUCT where name = ${string}  and  char_length(description)<=${description_length} Limit ${limit}, ${page}`;
         return sql;           
     } 
+
+    static getProductbyIDSQL(product_id) {
+        let sql = `SELECT * FROM PRODUCT where product_id=${product_id}`;
+        return sql;           
+    } 
 }
 
 // export default Product;
