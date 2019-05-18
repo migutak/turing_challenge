@@ -2,7 +2,7 @@ const express = require("express");
 const bodyparser = require("body-parser");
 const cors = require("cors");
 const products = require("./api/products");
-const orders = require("./api/orders");
+const departments = require("./api/departments");
 
 const app = express();
 
@@ -11,7 +11,7 @@ app.use(bodyparser.json());
 app.use(bodyparser.urlencoded({extended:false}));
 
 app.use("/products",products);
-app.use("/orders",orders);
+app.use("/departments",departments);
 
 //if we are here then the specified request is not found
 app.use((req,res,next)=> {

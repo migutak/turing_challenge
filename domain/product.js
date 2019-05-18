@@ -1,13 +1,29 @@
 class Product {
 
-    getAddProductSQL() {
-        let sql = `INSERT INTO PRODUCTS(prd_name, prd_price) \
-                   VALUES('${this.prd_name}',${this.prd_price})`;
+    getAddProductSQL(product_id,review,rating) {
+        let sql = `insert into review(product_id, review, rating) \
+                   values('${this.product_id}',${this.review}),${this.rating})`;
         return sql;           
     }
 
     static getProductByIdSQL(product_id) {
-        let sql = `SELECT * FROM PRODUCTS WHERE product_id = ${product_id}`;
+        let sql = `SELECT product_id,name,description,price,discounted_price,image,image_2,thumbnail,display from product where product_id = ${product_id}`;
+        return sql;           
+    }
+
+    static getProductDetailsSQL(product_id) {
+        let sql = `SELECT product_id,name,description,price,discounted_price,image,image_2 from product where product_id = ${product_id}`;
+        return sql;           
+    }
+
+    static getProductLocationSQL(product_id) {
+        let sql = `select pc.category_id,c.name category_name,d.department_id,d.name department_name from product p join product_category pc on p.product_id=pc.product_id join category c on c.category_id=pc.category_id 
+        join department d on d.department_id=c.department_id where p.product_id = ${product_id}`;
+        return sql;           
+    }
+
+    static getProductReviewSQL(product_id) {
+        let sql = `select review,rating,created_on from review r left join product p on r.product_id=p.product_id where p.product_id = ${product_id}`;
         return sql;           
     }
 
