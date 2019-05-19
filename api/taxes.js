@@ -1,18 +1,17 @@
 const express = require("express");
 const db = require("../db/database");
-const Department = require("../domain/department");
+const Tax = require("../domain/tax");
 
 const router = express.Router();
 
 router.get("/", (req, res, next) => {
 
-    db.query(Department.getDepartmentsSQL(), (err, data) => {
+    db.query(Tax.getAllTaxesSQL(), (err, data) => {
         if (err) {
             res.status(500).json({
                 status: 500,
                 code: "USR_02",
-                message: err,
-                field: "",
+                message: err
             });
         } else {
             var rows = data[0];
@@ -21,15 +20,14 @@ router.get("/", (req, res, next) => {
     });
 });
 
-router.get("/:department_id", (req, res, next) => {
-    var department_id = req.params.department_id;
-    db.query(Department.getDepartmentByIDSQL(department_id), (err, data) => {
+router.get("/:tax_id", (req, res, next) => {
+    var tax_id = req.params.tax_id;
+    db.query(Tax.getTaxByIDSQL(tax_id), (err, data) => {
         if (err) {
             res.status(500).json({
                 status: 500,
                 code: "USR_02",
-                message: err,
-                field: "",
+                message: err
             });
         } else {
             var rows = data[0];

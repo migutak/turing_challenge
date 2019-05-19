@@ -3,6 +3,10 @@ const bodyparser = require("body-parser");
 const cors = require("cors");
 const products = require("./api/products");
 const departments = require("./api/departments");
+const orders = require("./api/orders");
+const tax = require("./api/taxes");
+const customers = require("./api/customers");
+const shippings = require("./api/shippings");
 
 const app = express();
 
@@ -12,6 +16,10 @@ app.use(bodyparser.urlencoded({extended:false}));
 
 app.use("/products",products);
 app.use("/departments",departments);
+app.use("/orders",orders);
+app.use("/tax",tax);
+app.use("/customers",customers);
+app.use("/shippings",shippings);
 
 //if we are here then the specified request is not found
 app.use((req,res,next)=> {
